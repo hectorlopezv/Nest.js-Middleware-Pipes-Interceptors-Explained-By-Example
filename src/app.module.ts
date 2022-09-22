@@ -1,5 +1,6 @@
 import { MiddlewareConsumer, Module, NestModule, Scope } from '@nestjs/common';
-import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
+import { HttpExceptionFilter } from 'filters/http.exception';
 import { AuthGuard } from 'guards/auth.guard';
 import { LooginInterceptor } from 'interceptors/loogin.intercepetors';
 import { AuthenticationMiddleware } from 'middleware/authentication.middleware';
@@ -21,6 +22,10 @@ import { RequestService } from './request.service';
       provide: APP_INTERCEPTOR,
       useClass: LooginInterceptor,
       scope: Scope.REQUEST,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: HttpExceptionFilter,
     },
   ],
 })
